@@ -31,15 +31,28 @@ end
 # lancer le tweet
 # --> random_five_journalists(array, text)
 
-
-
-def like_25_last_tweet (hastag,key)
-    client.search("##{hastag}").take(key).each do |tweet|
-    client.search("#ruby -rt", lang: "ja").first.text
-
-    client.update("@#{tweet.user} Hey I love Ruby too, what are your favorite blogs? :)")
+def bonjour_monde_likes
+    last_25_tweets = login_twitter.search("#bonjour_monde", result_type: "recent").take(25)
+    login_twitter.favorite(last_25_tweets)
   end
-end
+
+  def follow_bonjour_monde
+    following_users = login_twitter.search("#bonjour_monde", result_type: "recent").take(20).map { |tweet| tweet.user }
+    login_twitter.follow(following_users)
+    unless following_users == "@Fanatoc"
+   end
+  end
+
+  
+  
+  def sample(client)
+      topics = ["#bonjour_monde", ""]
+  client.filter(track: topics.join(",")) do |object|
+    puts "YES" if object.is_a?(Twitter::Tweet)
+  end
+  end
+
+
 
 
 =begin MA METHODE QUI BUG SUR L'ENVOIE DE TWEET
