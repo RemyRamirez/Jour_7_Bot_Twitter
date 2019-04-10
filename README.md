@@ -1,1 +1,1 @@
-# Jour_7_Bot_Twitter
+# Jour_6_ruby_gem
