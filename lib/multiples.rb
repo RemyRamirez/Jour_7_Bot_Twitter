@@ -1,38 +1,23 @@
 require 'pry'
+require 'dotenv'# Appelle la gem Dotenv
+require 'twitter'
 
-def is_multiple_of_3_or_5?(current_number)
+Dotenv.load('.env') # Ceci appelle le fichier .env (situé dans le même dossier que le programme Ruby) grâce à la gem Dotenv, et importe toutes les données enregistrées dans un hash ENV
 
-    if (current_number %3) == 0  || (current_number %5) == 0
-        return true
-    else
-        return false
-    end
-end
+# Il est ensuite très facile d'appeler les données du fichier .env, par exemple là je vais afficher le contenu de la clé TWITTER_API_SECRET
+puts ENV['TWITTER_API_SECRET']
 
-def sum_of_3_or_5_multiples(final_number)
-    i=1
-    array = []
-    if final_number.class != Integer || final_number<0
-        array << "Yo ! Je ne prends que les entiers naturels. TG"
-        a = array[0]
-        puts "#{a}"
-    else 1.upto(final_number-1) do
-        if final_number.class != Integer
-            array << "Yo ! Je ne prends que les entiers naturels. TG"
-        elsif    is_multiple_of_3_or_5?(final_number-i) == true
-            array << final_number-i
-            binding.pry # On lance PRY au milieu de la méthode
-        end    
-        i += 1
-        end
-        a = array.sum
-        puts "#{a}"
-    end
+# tout est stocké dans un hash qui s'appelle ENV. Tu peux le regarder en faisant :
+puts ENV
 
-    return a
-end
+# quelques lignes qui appellent les clés d'API de ton fichier .env
+client = Twitter::REST::Client.new do |config|
+    config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
+    config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
+    config.access_token        = ENV["TWITTER_ACCESS_TOKEN"]
+    config.access_token_secret = ENV["TWITTER_ACCESS_TOKEN_SECRET"]
+  end
 
-sum_of_3_or_5_multiples(10)
-
-
+# ligne qui permet de tweeter sur ton compte
+client.update('Mon premier tweet en Ruby !!!!')
 
